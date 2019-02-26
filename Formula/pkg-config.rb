@@ -22,7 +22,7 @@ class PkgConfig < Formula
       #{HOMEBREW_PREFIX}/share/pkgconfig
     ]
     if OS.mac?
-      pc_path += %W[/usr/local/lib/pkgconfig /usr/lib/pkgconfig #{HOMEBREW_LIBRARY}/Homebrew/os/mac/pkgconfig/#{MacOS.version}"]
+      pc_path += %W[/usr/local/lib/pkgconfig /usr/lib/pkgconfig #{HOMEBREW_LIBRARY}/Homebrew/os/mac/pkgconfig/#{MacOS.version}]
     else
       pc_path << "#{HOMEBREW_LIBRARY}/Homebrew/os/linux/pkgconfig"
     end
