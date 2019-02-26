@@ -40,7 +40,7 @@ class Geant4 < Formula
   depends_on "cmake" => :build
   depends_on "expat" if OS.linux?
   depends_on "clhep"
-  depends_on "sxerces-c"
+  depends_on "xerces-c"
 
   def install
     ENV.cxx11
