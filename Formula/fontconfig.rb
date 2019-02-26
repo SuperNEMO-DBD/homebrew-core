@@ -27,8 +27,6 @@ class Fontconfig < Formula
     depends_on "libtool" => :build
   end
 
-  option "without-docs", "Skip building the fontconfig docs"
-
   depends_on "pkg-config" => :build
   depends_on "freetype"
   unless OS.mac?
@@ -62,7 +60,7 @@ class Fontconfig < Formula
                           "--prefix=#{prefix}",
                           "--localstatedir=#{var}",
                           "--sysconfdir=#{etc}",
-                          ("--disable-docs" if build.without? "docs")
+                          "--disable-docs"
     system "make", "install", "RUN_FC_CACHE_TEST=false"
   end
 
