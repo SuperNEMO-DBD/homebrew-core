@@ -5,12 +5,6 @@ class Sqlite < Formula
   version "3.27.1"
   sha256 "54a92b8ff73ff6181f89b9b0c08949119b99e8cccef93dbef90e852a8b10f4f8"
 
-  bottle do
-    root_url "https://linuxbrew.bintray.com/bottles"
-    cellar :any
-    sha256 "443263c9fee15bcb02cdf338751785a1567198ad0b275584d4b3b26cca00de53" => :x86_64_linux
-  end
-
   keg_only :provided_by_macos, "macOS provides an older sqlite3"
 
   depends_on "readline"
