@@ -1,110 +1,66 @@
 class Geant4 < Formula
-  desc "Simulation toolkit for particle transport through matter"
-  homepage "https://geant4.web.cern.ch"
-  url "https://geant4-data.web.cern.ch/geant4-data/releases/source/geant4.10.05.tar.gz"
-  version "10.5.0"
-  sha256 "4b05b4f7d50945459f8dbe287333b9efb772bd23d50920630d5454ec570b782d"
+  desc "C++ toolkit for simulating the passage of particles through matter"
+  homepage "http://geant4.cern.ch"
+  revision 6
 
-  bottle do
-    cellar :any
-    sha256 "268255d7e0af6a6dfb1305eed9f3a838a44fe9ef67ef465b510a60893de8f571" => :mojave
-    sha256 "7ed35e045f2ea368fce0ee929406187b230ea608ec2328e539b82c25e878f09b" => :high_sierra
-    sha256 "c3e542d8f1ff4561437e31b8aae44fe00e922d613bfaaa56611e7392f897c22c" => :sierra
+  stable do
+    url "http://geant4.cern.ch/support/source/geant4.9.6.p04.tar.gz"
+    version "9.6.4"
+    sha256 "997220a5386a43ac8f533fc7d5a8360aa1fd6338244d17deeaa583fb3a0f39fd"
+    patch do
+      url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-data-export.patch"
+      sha256 "6d7b50f504b53c924dfae28562726b839e191c4c78139dfa33040dfd460aebed"
+    end
+    patch do
+      url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-xcode.patch"
+      sha256 "0efa7f5b6c25f20493a3268dbd492ee3334f7839d2008554d57584ec9e4e7617"
+    end
+    patch do
+      url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-c11.patch"
+      sha256 "c99f760125f185f436a9191c5cdbad7053e7c41aaac0f6ccbacab392787f39a9"
+    end
+    patch do
+      url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-xercesc-include.patch"
+      sha256 "668d78b7c24efe9065a4e1aadd5441c129a454113eae96812c77a2c8861bfa64"
+    end
+    patch do
+      url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-infinite-recursion.patch"
+      sha256 "7ee817311d36f0b49f7af9dd5e024c406210e58cc2868e2a49387eb04c99400e"
+    end
   end
 
-  depends_on "cmake" => [:build, :test]
-  depends_on "qt"
-  depends_on "xerces-c"
-
-  resource "G4NDL" do
-    url "https://cern.ch/geant4-data/datasets/G4NDL.4.5.tar.gz"
-    sha256 "cba928a520a788f2bc8229c7ef57f83d0934bb0c6a18c31ef05ef4865edcdf8e"
+  devel do
+    url "http://geant4.cern.ch/support/source/geant4.10.02.p02.tar.gz"
+    version "10.2.2"
+    sha256 "702fb0f7a78d4bdf1e3f14508de26e4db5e2df6a21a8066a92b7e6ce21f4eb2d"
   end
 
-  resource "G4EMLOW" do
-    url "https://cern.ch/geant4-data/datasets/G4EMLOW.7.7.tar.gz"
-    sha256 "16dec6adda6477a97424d749688d73e9bd7d0b84d0137a67cf341f1960984663"
-  end
+  option "with-notimeout", "Set notimeout in installing data"
 
-  resource "PhotonEvaporation" do
-    url "https://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.3.tar.gz"
-    sha256 "d47ababc8cbe548065ef644e9bd88266869e75e2f9e577ebc36bc55bf7a92ec8"
-  end
-
-  resource "RadioactiveDecay" do
-    url "https://cern.ch/geant4-data/datasets/G4RadioactiveDecay.5.3.tar.gz"
-    sha256 "5c8992ac57ae56e66b064d3f5cdfe7c2fee76567520ad34a625bfb187119f8c1"
-  end
-
-  resource "G4SAIDDATA" do
-    url "https://cern.ch/geant4-data/datasets/G4SAIDDATA.2.0.tar.gz"
-    sha256 "1d26a8e79baa71e44d5759b9f55a67e8b7ede31751316a9e9037d80090c72e91"
-  end
-
-  resource "G4PARTICLEXS" do
-    url "https://cern.ch/geant4-data/datasets/G4PARTICLEXS.1.1.tar.gz"
-    sha256 "100a11c9ed961152acfadcc9b583a9f649dda4e48ab314fcd4f333412ade9d62"
-  end
-
-  resource "G4ABLA" do
-    url "https://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"
-    sha256 "7698b052b58bf1b9886beacdbd6af607adc1e099fc730ab6b21cf7f090c027ed"
-  end
-
-  resource "G4INCL" do
-    url "https://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz"
-    sha256 "716161821ae9f3d0565fbf3c2cf34f4e02e3e519eb419a82236eef22c2c4367d"
-  end
-
-  resource "G4PII" do
-    url "https://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz"
-    sha256 "6225ad902675f4381c98c6ba25fc5a06ce87549aa979634d3d03491d6616e926"
-  end
-
-  resource "G4ENSDFSTATE" do
-    url "https://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.2.tar.gz"
-    sha256 "dd7e27ef62070734a4a709601f5b3bada6641b111eb7069344e4f99a01d6e0a6"
-  end
-
-  resource "RealSurface" do
-    url "https://cern.ch/geant4-data/datasets/G4RealSurface.2.1.1.tar.gz"
-    sha256 "90481ff97a7c3fa792b7a2a21c9ed80a40e6be386e581a39950c844b2dd06f50"
-  end
+  depends_on "cmake" => :build
+  depends_on "expat" if OS.linux?
+  depends_on "clhep"
+  depends_on "sxerces-c"
 
   def install
-    mkdir "geant-build" do
-      args = std_cmake_args + %w[
-        ../
-        -DGEANT4_USE_GDML=ON
-        -DGEANT4_BUILD_MULTITHREADED=ON
-        -DGEANT4_USE_QT=ON
-      ]
+    ENV.cxx11
+    mkdir "geant4-build" do
+      args = std_cmake_args
+      args << "-DCMAKE_INSTALL_LIBDIR=lib"
+      args << "-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON"
+      args << "-DGEANT4_BUILD_CXXSTD=c++11"
+      args << "-DGEANT4_INSTALL_DATA=ON"
+      args << "-DGEANT4_INSTALL_DATA_TIMEOUT=86400" if build.with? "notimeout"
+      args << "-DGEANT4_USE_SYSTEM_CLHEP=ON"
+      args << "-DGEANT4_USE_SYSTEM_EXPAT=ON"
+      args << "-DGEANT4_USE_GDML=ON"
 
-      system "cmake", *args
+      system "cmake", "../", *args
       system "make", "install"
     end
-
-    resources.each do |r|
-      (share/"Geant4-#{version}/data/#{r.name}#{r.version}").install r
-    end
-  end
-
-  def caveats; <<~EOS
-    Because Geant4 expects a set of environment variables for
-    datafiles, you should source:
-      . #{HOMEBREW_PREFIX}/bin/geant4.sh (or .csh)
-    before running an application built with Geant4.
-  EOS
   end
 
   test do
-    system "cmake", share/"Geant4-#{version}/examples/basic/B1"
-    system "make"
-    (testpath/"test.sh").write <<~EOS
-      . #{bin}/geant4.sh
-      ./exampleB1 run2.mac
-    EOS
-    assert_match "Number of events processed : 1000",
-                 shell_output("/bin/bash test.sh")
+    system "false"
   end
 end
