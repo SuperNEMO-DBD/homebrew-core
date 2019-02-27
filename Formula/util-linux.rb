@@ -17,12 +17,14 @@ class UtilLinux < Formula
   unless OS.mac?
     depends_on "linuxbrew/extra/linux-pam" => :optional
     depends_on "ncurses"
-    depends_on "python@2"
+    depends_on "python"
   end
 
   conflicts_with "rename", :because => "both install `rename` binaries"
 
   def install
+    ENV.prepend_path "PATH", Formula["python"].opt_libexec/"bin" unless OS.mac?
+
     args = [
       "--disable-dependency-tracking",
       "--disable-silent-rules",
