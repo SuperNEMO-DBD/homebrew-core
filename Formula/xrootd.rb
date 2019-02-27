@@ -1,20 +1,47 @@
 class Xrootd < Formula
   desc "High performance, scalable, fault-tolerant access to data"
   homepage "http://xrootd.org"
-  url "http://xrootd.org/download/v4.6.1/xrootd-4.6.1.tar.gz"
-  sha256 "0261ce760e8788f85d68918d7702ae30ec677a8f331dae14adc979b4cc7badf5"
+  url "http://xrootd.org/download/v4.8.5/xrootd-4.8.5.tar.gz"
+  sha256 "42e4d2cc6f8b442135f09bcc12c7be38b1a0c623a005cb5e69ff3d27997bdf73"
   head "https://github.com/xrootd/xrootd.git"
 
   depends_on "cmake" => :build
   depends_on "libxml2"
   depends_on "openssl"
-  depends_on "python@2"
+  depends_on "python"
   depends_on "readline"
+  depends_on "zlib"
 
   def install
     ENV.cxx11
     mkdir "build" do
-      system "cmake", "..", "-DCMAKE_INSTALL_LIBDIR=#{lib}", "-DENABLE_FUSE=OFF", "-DENABLE_KRB5=OFF", *std_cmake_args
+      # Python requires some care...
+      # PYTHON_EXECUTABLE appears to doo all that is needed,
+      # but xrootd will pick up unrelated python libs, even
+      # if it does not end up using these.
+      py_exe = Utils.popen_read("which python3").strip
+      py_ver = Language::Python.major_minor_version(py_exe)
+      py_prefix = Utils.popen_read("#{py_exe} -c 'import sys;print(sys.prefix)'").chomp
+      py_incdir = Utils.popen_read("#{py_exe} -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
+      # Framework or shared lib?
+      dylib = OS.mac? ? "dylib" : "so"
+      if File.exist? "#{py_prefix}/Python"
+        py_lib = "#{py_prefix}/Python"
+      elsif File.exist? "#{py_prefix}/lib/libpython#{py_ver}.#{dylib}"
+        py_lib = "#{py_prefix}/lib/libpython#{py_ver}.#{dylib}"
+      else
+        odie "No Python Framework or libpython#{py_ver}.#{dylib} found!"
+      end
+
+      args = *std_cmake_args
+      args << "-DCMAKE_INSTALL_LIBDIR=#{lib}"
+      args << "-DPYTHON_EXECUTABLE='#{py_exe}'"
+      args << "-DPYTHON_INCLUDE_DIR='#{py_incdir}'"
+      args << "-DPYTHON_LIBRARY='#{py_lib}'"
+      args << "-DENABLE_FUSE=OFF"
+      args << "-DENABLE_KRB5=OFF"
+
+      system "cmake", "..", *args
       system "make", "install"
     end
   end
