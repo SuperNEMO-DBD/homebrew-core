@@ -1,7 +1,6 @@
 class Root6 < Formula
   desc "CERN C++ Data Analysis and Persistency Libraries"
   homepage "http://root.cern.ch"
-  revision 2
   head "http://root.cern.ch/git/root.git"
 
   stable do
@@ -19,6 +18,7 @@ class Root6 < Formula
   depends_on "xrootd"
   depends_on "xz" # For LZMA
   depends_on "xxhash"
+  depends_on "lz4"
 
   conflicts_with "root", :because => "SuperNEMO requires custom root build"
 
