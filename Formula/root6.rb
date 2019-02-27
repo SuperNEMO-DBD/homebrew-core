@@ -5,23 +5,15 @@ class Root6 < Formula
   head "http://root.cern.ch/git/root.git"
 
   stable do
-    url "https://root.cern.ch/download/root_v6.12.04.source.tar.gz"
-    mirror "https://fossies.org/linux/misc/root_v6.12.04.source.tar.gz"
-    version "6.12.04"
-    sha256 "f438f2ae6e25496fa81df525935fb0bf2a403855d95c40b3e0f3a3e1e861a085"
-  end
-
-  devel do
-    url "https://root.cern.ch/download/root_v6.14.06.source.tar.gz"
-    mirror "https://fossies.org/linux/misc/root_v6.14.06.source.tar.gz"
-    version "6.14.06"
-    sha256 "0fb943b61396f282b289e35c455a9ab60126229be1bd3f04a8f00b37c13ab432"
+    url "https://root.cern.ch/download/root_v6.16.00.source.tar.gz"
+    version "6.16.00"
+    sha256 "2a45055c6091adaa72b977c512f84da8ef92723c30837c7e2643eecc9c5ce4d8"
   end
 
   depends_on "cmake" => :build
   depends_on "libxml2" unless OS.mac? # For XML on Linux
   depends_on "openssl"
-  depends_on "python@2"
+  depends_on "python"
   depends_on "sqlite"
   depends_on "gsl"
   depends_on "xrootd"
@@ -64,11 +56,17 @@ class Root6 < Formula
       -Dpgsql=OFF
       -Dpythia6=OFF
       -Dpythia8=OFF
+      -Dpython=OFF
       -Dqt=OFF
       -Drfio=OFF
       -Dsapdb=OFF
+      -Dsqlite=OFF
       -Dsrp=OFF
+      -Dtmva-cpu=OFF
+      -Dtmva-gpu=OFF
+      -Dtmva-pymva=OFF
       -Dunuran=OFF
+      -Dvdt=OFF
     ]
 
     # Now the core/builtin things we want
@@ -78,6 +76,7 @@ class Root6 < Formula
       -Dexplicitlink=ON
       -Drpath=ON
       -Dsoversion=ON
+      -Dfail-on-missing=ON
       -Dbuiltin_asimage=ON
       -Dasimage=ON
       -Dbuiltin_fftw3=ON
@@ -92,37 +91,15 @@ class Root6 < Formula
     args += %w[
       -Dsqlite=ON
       -Dssl=ON
+      -Dbuiltin_openssl=OFF
       -Dmathmore=ON
       -Dxrootd=ON
+      -Dbuiltin_xrootd=OFF
     ]
 
-    # Only fail on missing for non-devel builds due to
-    # https://github.com/root-project/root/pull/2972
-    args << "-Dfail-on-missing=ON" unless build.devel?
-
-    # Python requires a bit of finessing
-    ENV.prepend_path "PATH", Formula["python@2"].opt_libexec/"bin"
-    python_executable = Utils.popen_read("which python2").strip
-    python_version = Language::Python.major_minor_version("python2")
-
-    python_prefix = Utils.popen_read("#{python_executable} -c 'import sys;print(sys.prefix)'").chomp
-    python_include = Utils.popen_read("#{python_executable} -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
-    args << "-Dpython=ON"
-
-    # cmake picks up the system's python dylib, even if we have a brewed one
-    dylib = OS.mac? ? "dylib" : "so"
-    if File.exist? "#{python_prefix}/Python"
-      python_library = "#{python_prefix}/Python"
-    elsif File.exist? "#{python_prefix}/lib/libpython#{python_version}.#{dylib}"
-      python_library = "#{python_prefix}/lib/libpython#{python_version}.#{dylib}"
-    elsif File.exist? "#{python_prefix}/lib/libpython#{python_version}.a"
-      python_library = "#{python_prefix}/lib/libpython#{python_version}.a"
-    else
-      odie "No libpythonX.Y.{dylib|so,a} file found!"
-    end
-    args << "-DPYTHON_EXECUTABLE='#{python_executable}'"
-    args << "-DPYTHON_INCLUDE_DIR='#{python_include}'"
-    args << "-DPYTHON_LIBRARY='#{python_library}'"
+    # Python
+    py_exe = Utils.popen_read("which python3").strip
+    args << "-Dpython=ON" << "-DPYTHON_EXECUTABLE='#{py_exe}'"
 
     mkdir "cmake-build" do
       system "cmake", "..", *args
