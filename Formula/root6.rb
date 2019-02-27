@@ -18,6 +18,7 @@ class Root6 < Formula
   depends_on "gsl"
   depends_on "xrootd"
   depends_on "xz" # For LZMA
+  depends_on "xxhash"
 
   conflicts_with "root", :because => "SuperNEMO requires custom root build"
 
