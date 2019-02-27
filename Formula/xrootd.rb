@@ -27,8 +27,8 @@ class Xrootd < Formula
       dylib = OS.mac? ? "dylib" : "so"
       if File.exist? "#{py_prefix}/Python"
         py_lib = "#{py_prefix}/Python"
-      elsif File.exist? "#{py_prefix}/lib/libpython#{py_ver}.#{dylib}"
-        py_lib = "#{py_prefix}/lib/libpython#{py_ver}.#{dylib}"
+      elsif File.exist? "#{py_prefix}/lib/libpython#{py_ver}m.#{dylib}"
+        py_lib = "#{py_prefix}/lib/libpython#{py_ver}m.#{dylib}"
       else
         odie "No Python Framework or libpython#{py_ver}.#{dylib} found!"
       end
