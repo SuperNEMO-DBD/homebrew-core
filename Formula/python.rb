@@ -7,21 +7,6 @@ class Python < Formula
   revision 2
   head "https://github.com/python/cpython.git"
 
-  bottle do
-    root_url "https://linuxbrew.bintray.com/bottles"
-    sha256 "e5cad9122fac9f9ec43096b5c824fb36aae88f0ca79256db8a5cca4a3277a7e2" => :x86_64_linux
-  end
-
-  # setuptools remembers the build flags python is built with and uses them to
-  # build packages later. Xcode-only systems need different flags.
-  pour_bottle? do
-    reason <<~EOS
-      The bottle needs the Apple Command Line Tools to be installed.
-        You can install them, if desired, with:
-          xcode-select --install
-    EOS
-    satisfy { !OS.mac? || MacOS::CLT.installed? }
-  end
 
   depends_on "pkg-config" => :build
   depends_on "gdbm"
