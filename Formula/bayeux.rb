@@ -7,6 +7,11 @@ class Bayeux < Formula
     sha256 "6468251da50214e744651260770bf252f677a8f9b9f822085c38dc69d71b52a9"
   end
 
+  devel do
+    url "https://github.com/SuperNEMO-DBD/Bayeux.git", :branch => "release-3.3.x-snemo"
+    version "3.3.1-snemo"
+  end
+
   option "with-devtools", "Build debug tools for Bayeux developers"
 
   depends_on "cmake" => :build
@@ -36,7 +41,7 @@ class Bayeux < Formula
 
       if build.devel?
         system "make"
-        system "ctest"
+        system "ctest" unless OS.mac?
       end
 
       system "make", "install"
