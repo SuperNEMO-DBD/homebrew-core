@@ -4,6 +4,7 @@ class Falaise < Formula
   url "https://github.com/SuperNEMO-DBD/Falaise/archive/Falaise-3.3.0.tar.gz"
   sha256 "afb332511e67744f3ca109a30574bd6779f34e73c4c933599bf192356727a64d"
   head "https://github.com/SuperNEMO-DBD/Falaise.git", :branch => "develop"
+  revision 1
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
