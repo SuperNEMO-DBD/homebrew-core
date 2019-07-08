@@ -1,7 +1,7 @@
 class Qt5Base < Formula
   desc "Qt5 Core Libraries"
   homepage "http://qt-project.org/"
-  url "http://download.qt.io/official_releases/qt/5.10/5.10.1/submodules/qtbase-everywhere-src-5.10.1.tar.xz"
+  url "http://download.qt.io/archive/qt/5.10/5.10.1/submodules/qtbase-everywhere-src-5.10.1.tar.xz"
   sha256 "d8660e189caa5da5142d5894d328b61a4d3ee9750b76d61ad74e4eee8765a969"
 
   keg_only "qt5 is very picky about install locations, so keep it isolated"
@@ -20,7 +20,7 @@ class Qt5Base < Formula
 
   # try submodules as resources
   resource "qtsvg" do
-    url "http://download.qt.io/official_releases/qt/5.10/5.10.1/submodules/qtsvg-everywhere-src-5.10.1.tar.xz"
+    url "http://download.qt.io/archive/qt/5.10/5.10.1/submodules/qtsvg-everywhere-src-5.10.1.tar.xz"
     sha256 "00e00c04abcc8363cf7d94ca8b16af61840995a4af23685d49fa4ccafa1c7f5a"
   end
 
