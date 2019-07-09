@@ -8,6 +8,12 @@ class Bayeux < Formula
     version "3.3.1"
   end
 
+  devel do
+    url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.4.1.tar.gz"
+    sha256 "94785ec23c77e5b4785d39cb6a6f94fa9f0229989778bdf688ef43b7a4fead8a"
+    version "3.4.1"
+  end
+
   option "with-devtools", "Build debug tools for Bayeux developers"
 
   depends_on "cmake" => :build
