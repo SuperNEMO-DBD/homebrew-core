@@ -3,12 +3,6 @@ class Bayeux < Formula
   homepage "https://github.com/supernemo-dbd/bayeux"
   head "https://github.com/SuperNEMO-DBD/Bayeux.git", :branch => "develop"
   stable do
-    url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.3.1.snemo.tar.gz"
-    sha256 "5b6b2ca5b292225547187a24efd7cc1716234b458005f1718f90456da76d01da"
-    version "3.3.1"
-  end
-
-  devel do
     url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.4.1.tar.gz"
     sha256 "94785ec23c77e5b4785d39cb6a6f94fa9f0229989778bdf688ef43b7a4fead8a"
     version "3.4.1"

@@ -1,14 +1,8 @@
 class Boost < Formula
   desc "Collection of portable C++ source libraries"
   homepage "https://www.boost.org/"
-  revision 5
 
   stable do
-    url "https://downloads.sourceforge.net/project/boost/boost/1.63.0/boost_1_63_0.tar.bz2"
-    sha256 "beae2529f759f6b3bf3f4969a19c2e9d6f0c503edcb2de4a61d1428519fcb3b0"
-  end
-
-  devel do
     url "https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2"
     sha256 "8f32d4617390d1c2d16f26a27ab60d97807b35440d45891fa340fc2648b04406"
   end
@@ -55,14 +49,8 @@ class Boost < Formula
             "-d2",
             "-j#{ENV.make_jobs}",
             "--user-config=user-config.jam",
+             "--layout=tagged-1.66",
             "install"]
-
-    # Tagging is different since 1.66
-    if build.devel?
-      args << "--layout=tagged-1.66"
-    else
-      args << "--layout=tagged"
-    end
 
     # Only build MT shared variants
     args << "threading=multi"
