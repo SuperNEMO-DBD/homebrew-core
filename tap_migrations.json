@@ -27,8 +27,8 @@
   "quassel": "homebrew/cask",
   "transmission-remote-gtk": "homebrew/cask/transmission-remote-gui",
   "tuntap": "homebrew/cask",
-  "iotop": "linuxbrew/extra",
-  "libpipeline": "linuxbrew/extra",
-  "man-db": "linuxbrew/extra",
-  "strace": "linuxbrew/extra"
+  "iotop": "supernemo-dbd/extra",
+  "libpipeline": "supernemo-dbd/extra",
+  "man-db": "supernemo-dbd/extra",
+  "strace": "supernemo-dbd/extra"
 }

@@ -15,7 +15,7 @@ class Stdman < Formula
     sha256 "b6b0ef820da71198038598ff37437525a2079bb58701ebaf71de5fe3c182c294" => :x86_64_linux
   end
 
-  depends_on "linuxbrew/extra/man-db" => :test unless OS.mac?
+  depends_on "supernemo-dbd//extra/man-db" => :test unless OS.mac?
 
   def install
     system "./configure", "--prefix=#{prefix}"

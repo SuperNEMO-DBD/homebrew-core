@@ -15,7 +15,7 @@ class UtilLinux < Formula
   end
 
   unless OS.mac?
-    depends_on "linuxbrew/extra/linux-pam" => :optional
+    depends_on "supernemo-dbd/extra/linux-pam" => :optional
     depends_on "ncurses"
     depends_on "python"
   end

@@ -28,7 +28,7 @@ class Cvs < Formula
     depends_on VimRequirement unless ENV["CI"]
     depends_on "vim" unless which "vim"
     depends_on "zlib"
-    depends_on "linuxbrew/extra/linux-pam"
+    depends_on "supernemo-dbd/extra/linux-pam"
   end
 
   patch :p0 do
