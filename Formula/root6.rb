@@ -9,6 +9,12 @@ class Root6 < Formula
     sha256 "2a45055c6091adaa72b977c512f84da8ef92723c30837c7e2643eecc9c5ce4d8"
   end
 
+  devel do
+    url "https://root.cern.ch/download/root_v6.18.04.source.tar.gz"
+    version "6.18.04"
+    sha256 "315a85fc8363f8eb1bffa0decbf126121258f79bd273513ed64795675485cfa4"
+  end
+
   depends_on "cmake" => :build
   depends_on "libxml2" unless OS.mac? # For XML on Linux
   depends_on "openssl"
@@ -19,6 +25,7 @@ class Root6 < Formula
   depends_on "xz" # For LZMA
   depends_on "xxhash"
   depends_on "lz4"
+  depends_on "tbb"
 
   conflicts_with "root", :because => "SuperNEMO requires custom root build"
 
@@ -85,7 +92,6 @@ class Root6 < Formula
       -Droofit=ON
       -Dgdml=ON
       -Dminuit2=ON
-      -Dbuiltin_tbb=ON
     ]
 
     # Options that require an external
