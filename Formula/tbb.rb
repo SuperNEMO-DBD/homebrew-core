@@ -62,7 +62,7 @@ class Tbb < Formula
         return 0;
       }
     EOS
-    system ENV.cxx, "test.cpp", "-L#{lib}", "-ltbb", "-o", "test"
+    system ENV.cxx, "test.cpp", "-std=c++11", "-L#{lib}", "-ltbb", "-o", "test"
     system "./test"
   end
 end
