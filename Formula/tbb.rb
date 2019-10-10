@@ -4,25 +4,21 @@ class Tbb < Formula
   url "https://github.com/01org/tbb/archive/2019_U3.tar.gz"
   version "2019_U3"
   sha256 "b2244147bc8159cdd8f06a38afeb42f3237d3fc822555499d7ccfbd4b86f8ece"
-  revision 1
+  revision 2
 
-  bottle do
-    cellar :any
-    sha256 "3b5ac43b2280ebbebc39541a95a63e287b08eceb8ba75912cd8b89f731ffe663" => :mojave
-    sha256 "fc57daae5222af5ba8178f810113ac37066b40d268d3e30da78e1aeaa40cfd0f" => :high_sierra
-    sha256 "77e4f8db4f7bc6c1327567a8944d5eb3ba5a6503cc1404e65f18284e1f7aabfd" => :sierra
-  end
+  # Patch for cmakeConfig, from spack
+  patch :p0, :DATA
 
   depends_on "cmake" => :build
-  depends_on "swig" => :build
-  # requires malloc features first introduced in Lion
-  # https://github.com/Homebrew/homebrew/issues/32274
-
-  depends_on "python"
 
   def install
+    # In addition to patch, need an inreplace for tbb_root
+    inreplace "cmake/templates/TBBConfig.cmake.in",
+      "get_filename_component(_tbb_root \"${_tbb_root}\" PATH)",
+      "get_filename_component(_tbb_root \"${_tbb_root}/../../..\" ABSOLUTE)"
+
     compiler = (ENV.compiler == :clang) ? "clang" : "gcc"
-    args = %W[tbb_build_prefix=BUILDPREFIX compiler=#{compiler}]
+    args = %W[tbb_build_prefix=BUILDPREFIX compiler=#{compiler} stdver=c++11]
 
     # Fix /usr/bin/ld: cannot find -lirml by building rml
     system "make", "rml", *args unless OS.mac?
@@ -30,26 +26,28 @@ class Tbb < Formula
     system "make", *args
     if OS.mac?
       lib.install Dir["build/BUILDPREFIX_release/*.dylib"]
+      lib.install Dir["build/BUILDPREFIX_debug/*.dylib"]
     else
       lib.install Dir["build/BUILDPREFIX_release/*.so*"]
+      lib.install Dir["build/BUILDPREFIX_debug/*.so*"]
     end
 
     # Build and install static libraries
     system "make", "tbb_build_prefix=BUILDPREFIX", "compiler=#{compiler}",
-                   "extra_inc=big_iron.inc"
+                   "stdver=c++11", "extra_inc=big_iron.inc"
     lib.install Dir["build/BUILDPREFIX_release/*.a"]
     include.install "include/tbb"
 
-    cd "python" do
-      ENV["TBBROOT"] = prefix
-      system "python3", *Language::Python.setup_install_args(prefix)
+    if OS.mac?
+      tbb_os = "Darwin"
+    else
+      tbb_os = "Linux"
     end
 
     system "cmake", "-DTBB_ROOT=#{prefix}",
-                    "-DTBB_OS=Darwin",
+                    "-DTBB_OS=#{tbb_os}",
                     "-DSAVE_TO=lib/cmake/TBB",
                     "-P", "cmake/tbb_config_generator.cmake"
-
     (lib/"cmake"/"TBB").install Dir["lib/cmake/TBB/*.cmake"]
   end
 
@@ -68,3 +66,16 @@ class Tbb < Formula
     system "./test"
   end
 end
+
+__END__
+--- cmake/templates/TBBConfig.cmake.in~	2018-03-30 10:55:05.000000000 -0500
++++ cmake/templates/TBBConfig.cmake.in	2018-05-25 10:25:52.498708945 -0500
+@@ -52,7 +52,7 @@
+
+ @TBB_CHOOSE_COMPILER_SUBDIR@
+
+-get_filename_component(_tbb_lib_path "${_tbb_root}/@TBB_SHARED_LIB_DIR@/${_tbb_arch_subdir}/${_tbb_compiler_subdir}" ABSOLUTE)
++get_filename_component(_tbb_lib_path "${_tbb_root}/@TBB_SHARED_LIB_DIR@" ABSOLUTE)
+
+ foreach (_tbb_component ${TBB_FIND_COMPONENTS})
+     set(_tbb_release_lib "${_tbb_lib_path}/@TBB_LIB_PREFIX@${_tbb_component}.@TBB_LIB_EXT@")
