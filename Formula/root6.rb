@@ -4,12 +4,6 @@ class Root6 < Formula
   head "http://root.cern.ch/git/root.git"
 
   stable do
-    url "https://root.cern.ch/download/root_v6.16.00.source.tar.gz"
-    version "6.16.00"
-    sha256 "2a45055c6091adaa72b977c512f84da8ef92723c30837c7e2643eecc9c5ce4d8"
-  end
-
-  devel do
     url "https://root.cern.ch/download/root_v6.18.04.source.tar.gz"
     version "6.18.04"
     sha256 "315a85fc8363f8eb1bffa0decbf126121258f79bd273513ed64795675485cfa4"
