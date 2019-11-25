@@ -21,6 +21,8 @@ class Icu4c < Formula
       --prefix=#{prefix}
       --disable-samples
       --disable-tests
+      --disable-layout
+      --disable-layoutex
       --enable-static
     ]
 
