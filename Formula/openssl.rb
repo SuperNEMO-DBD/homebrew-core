@@ -4,17 +4,8 @@
 class Openssl < Formula
   desc "SSL/TLS cryptography library"
   homepage "https://openssl.org/"
-  url "https://www.openssl.org/source/openssl-1.0.2q.tar.gz"
-  mirror "https://dl.bintray.com/homebrew/mirror/openssl--1.0.2q.tar.gz"
-  mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-1.0.2q.tar.gz"
-  mirror "http://artfiles.org/openssl.org/source/openssl-1.0.2q.tar.gz"
-  sha256 "5744cfcbcec2b1b48629f7354203bc1e5e9b5466998bbccc5b5fcde3b18eb684"
-  revision 2 unless OS.mac?
-
-  bottle do
-    root_url "https://linuxbrew.bintray.com/bottles"
-    sha256 "011686250576397948e08ccc4c77db2edd3ba2c2e2ddfc24dfaca15dd1744d08" => :x86_64_linux
-  end
+  url "https://www.openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz"
+  sha256 "ecd0c6ffb493dd06707d38b14bb4d8c2288bb7033735606569d8f90f89669d16"
 
   keg_only :provided_by_macos,
     "Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries"
@@ -22,9 +13,8 @@ class Openssl < Formula
   unless OS.mac?
     resource "cacert" do
       # homepage "http://curl.haxx.se/docs/caextract.html"
-      url "https://curl.haxx.se/ca/cacert-2019-01-23.pem"
-      mirror "http://linuxbrew.bintray.com/bottles/cacert-2019-01-23.pem"
-      sha256 "c1fd9b235896b1094ee97bfb7e042f93530b5e300781f59b45edf84ee8c75000"
+      url "https://curl.haxx.se/ca/cacert-2020-01-01.pem"
+      sha256 "adf770dfd574a0d6026bfaa270cb6879b063957177a991d453ff1d302c02081f"
     end
   end
 
