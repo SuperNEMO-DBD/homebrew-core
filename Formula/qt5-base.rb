@@ -1,8 +1,8 @@
 class Qt5Base < Formula
   desc "Qt5 Core Libraries"
   homepage "http://qt-project.org/"
-  url "http://download.qt.io/archive/qt/5.10/5.10.1/submodules/qtbase-everywhere-src-5.10.1.tar.xz"
-  sha256 "d8660e189caa5da5142d5894d328b61a4d3ee9750b76d61ad74e4eee8765a969"
+  url "http://download.qt.io/official_releases/qt/5.12/5.12.6/submodules/qtbase-everywhere-src-5.12.6.tar.xz"
+  sha256 "6ab52649d74d7c1728cf4a6cf335d1142b3bf617d476e2857eb7961ef43f9f27"
 
   keg_only "qt5 is very picky about install locations, so keep it isolated"
 
@@ -20,16 +20,11 @@ class Qt5Base < Formula
 
   # try submodules as resources
   resource "qtsvg" do
-    url "http://download.qt.io/archive/qt/5.10/5.10.1/submodules/qtsvg-everywhere-src-5.10.1.tar.xz"
-    sha256 "00e00c04abcc8363cf7d94ca8b16af61840995a4af23685d49fa4ccafa1c7f5a"
+    url "http://download.qt.io/official_releases/qt/5.12/5.12.6/submodules/qtsvg-everywhere-src-5.12.6.tar.xz"
+    sha256 "46243e6c425827ab4e91fbe31567f683ff14cb01d12f9f7543a83a571228ef8f"
   end
 
   def install
-    # Patch for https://bugreports.qt.io/browse/QTBUG-67545
-    inreplace "./src/platformsupport/fontdatabases/mac/qfontengine_coretext.mm",
-      "return QFixed::QFixed(int(CTFontGetUnitsPerEm(ctfont)));",
-      "return QFixed(int(CTFontGetUnitsPerEm(ctfont)));"
-
     args = %W[
       -verbose
       -prefix #{prefix}
@@ -72,7 +67,7 @@ class Qt5Base < Formula
       # If we end up depending on any keg_only Formulae, add extra
       # -R lines for each of them below here.
 
-      # Portable binaries for kernels < 3.17 cannot be created without 
+      # Portable binaries for kernels < 3.17 cannot be created without
       # these flags. In particular, they are required to allow modern
       # containers to run on older systems.
       args << "-no-feature-renameat2"
