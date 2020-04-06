@@ -10,16 +10,16 @@ class Root6 < Formula
   end
 
   depends_on "cmake" => :build
+  depends_on "gsl"
   depends_on "libxml2" unless OS.mac? # For XML on Linux
+  depends_on "lz4"
   depends_on "openssl"
   depends_on "python"
   depends_on "sqlite"
-  depends_on "gsl"
-  depends_on "xrootd"
-  depends_on "xz" # For LZMA
-  depends_on "xxhash"
-  depends_on "lz4"
   depends_on "tbb"
+  depends_on "xrootd"
+  depends_on "xxhash"
+  depends_on "xz" # For LZMA
 
   conflicts_with "root", :because => "SuperNEMO requires custom root build"
 
@@ -100,7 +100,13 @@ class Root6 < Formula
 
     # Python
     py_exe = Utils.popen_read("which python3").strip
-    args << "-Dpython=ON" << "-DPYTHON_EXECUTABLE='#{py_exe}'"
+    py_prefix = Utils.popen_read("python3 -c 'import sys;print(sys.prefix)'").chomp
+    py_inc =
+      Utils.popen_read("python3 -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
+    args << "-Dpython=ON"
+    args << "-DPYTHON_EXECUTABLE='#{py_exe}'"
+    args << "-DPYTHON_INCLUDE_DIR='#{py_inc}'"
+    args << "-DPYTHON_LIBRARY='#{py_prefix}/Python'"
 
     mkdir "cmake-build" do
       system "cmake", "..", *args
