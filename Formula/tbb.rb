@@ -3,13 +3,13 @@ class Tbb < Formula
   homepage "https://www.threadingbuildingblocks.org/"
   url "https://github.com/01org/tbb/archive/2019_U3.tar.gz"
   version "2019_U3"
-  sha256 "b2244147bc8159cdd8f06a38afeb42f3237d3fc822555499d7ccfbd4b86f8ece"
+  sha256 "4cb6bde796ae056e7c29f31bfdc6cfd0cfe848925219e9c82a20f09158e81542"
   revision 2
+
+  depends_on "cmake" => :build
 
   # Patch for cmakeConfig, from spack
   patch :p0, :DATA
-
-  depends_on "cmake" => :build
 
   def install
     # In addition to patch, need an inreplace for tbb_root
