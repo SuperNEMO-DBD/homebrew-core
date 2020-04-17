@@ -10,6 +10,7 @@ class Root6 < Formula
   end
 
   depends_on "cmake" => :build
+  depends_on "freetype"
   depends_on "gsl"
   depends_on "libxml2" unless OS.mac? # For XML on Linux
   depends_on "lz4"
@@ -82,7 +83,6 @@ class Root6 < Formula
       -Dbuiltin_asimage=ON
       -Dasimage=ON
       -Dbuiltin_fftw3=ON
-      -Dbuiltin_freetype=ON
       -Droofit=ON
       -Dgdml=ON
       -Dminuit2=ON
@@ -103,10 +103,16 @@ class Root6 < Formula
     py_prefix = Utils.popen_read("python3 -c 'import sys;print(sys.prefix)'").chomp
     py_inc =
       Utils.popen_read("python3 -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
+    py_lib = Utils.popen_read("python3 -c 'from distutils import sysconfig;print(sysconfig.get_config_var(\"LDLIBRARY\"))'").chomp
+
     args << "-Dpython=ON"
     args << "-DPYTHON_EXECUTABLE='#{py_exe}'"
     args << "-DPYTHON_INCLUDE_DIR='#{py_inc}'"
-    args << "-DPYTHON_LIBRARY='#{py_prefix}/Python'"
+    if OS.mac?
+      args << "-DPYTHON_LIBRARY='#{py_prefix}/Python'"
+    else
+      args << "-DPYTHON_LIBRARY='#{py_prefix}/lib/#{py_lib}'"
+    end
 
     mkdir "cmake-build" do
       system "cmake", "..", *args
