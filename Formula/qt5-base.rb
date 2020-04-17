@@ -13,7 +13,6 @@ class Qt5Base < Formula
     depends_on "icu4c"
     depends_on "fontconfig"
     depends_on "freetype"
-    depends_on "zlib"
   end
 
   conflicts_with "qt5", :because => "Core homebrew ships a complete Qt5 install"
@@ -25,12 +24,18 @@ class Qt5Base < Formula
   end
 
   def install
+    unless OS.mac?
+      # Only way to get Qt to look for system GL/Xlibs
+      sys_pkgconf_path = Utils.popen_read("/usr/bin/pkg-config --variable pc_path pkg-config").chomp
+      ENV.append_path "PKG_CONFIG_PATH", "#{sys_pkgconf_path}"
+    end
+
     args = %W[
       -verbose
       -prefix #{prefix}
       -release
       -opensource -confirm-license
-      -system-zlib
+      -qt-zlib
       -qt-libpng
       -qt-libjpeg
       -qt-freetype
@@ -38,6 +43,7 @@ class Qt5Base < Formula
       -nomake tests
       -nomake examples
       -pkg-config
+      -no-openssl
       -no-avx
       -no-avx2
       -no-sql-mysql
