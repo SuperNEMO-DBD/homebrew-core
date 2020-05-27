@@ -26,6 +26,11 @@ class M4 < Formula
     end
   end
 
+  patch :p1 do
+    url "https://raw.githubusercontent.com/easybuilders/easybuild-easyconfigs/develop/easybuild/easyconfigs/m/M4/M4-1.4.18_glibc_2.28.patch"
+    sha256 "a613c18f00b1a3caa46ae4b8b849a0f4f71095ad860f4fcd6c6bb4ae211681fa"
+  end
+
   def install
     system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}"
     system "make"
