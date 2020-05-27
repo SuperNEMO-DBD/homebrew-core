@@ -1,8 +1,8 @@
 class Xrootd < Formula
   desc "High performance, scalable, fault-tolerant access to data"
   homepage "http://xrootd.org"
-  url "http://xrootd.org/download/v4.8.5/xrootd-4.8.5.tar.gz"
-  sha256 "42e4d2cc6f8b442135f09bcc12c7be38b1a0c623a005cb5e69ff3d27997bdf73"
+  url "http://xrootd.org/download/v4.12.1/xrootd-4.12.1.tar.gz"
+  sha256 "7350d9196a26d17719b839fd242849e3995692fda25f242e67ac6ec907218d13"
   head "https://github.com/xrootd/xrootd.git"
 
   depends_on "cmake" => :build
